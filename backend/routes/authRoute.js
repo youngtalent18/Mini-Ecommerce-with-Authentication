@@ -1,6 +1,7 @@
 import express from "express"
-import { getMe,signup, login, logout } from "../controllers/authController";
+import { getMe,signup, login, logout } from "../controllers/authController.js";
 import protectRoute from "../middleware/protectRoute.js"
+
 const router = express.Router();
 
 router.post("/signup", signup);

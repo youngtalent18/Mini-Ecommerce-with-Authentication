@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import bcrypt from "bcryptjs";
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -28,9 +28,30 @@ const userSchema = new mongoose.Schema({
                 ref: "Product"
             }
         }
-    ]
+    ],
+    role: {
+        type: String,
+        enum: ["customer", "admin"],
+        default: "customer"
+    }
 }, { timestamps: true });
 
-const User = mongoose.model('User', userSchema);
+//hashing the password before saving
+//I need go more into this 😢
+userSchema.pre("save", async function () {
+    if(!this.isModified("password")) return;
 
+    try {
+        const salt = await bcrypt.genSalt(10);
+        this.password = await bcrypt.hash(this.password, salt);
+    }catch(error){
+        throw new Error("Error hashing the password");
+    }
+})
+
+userSchema.methods.comparePass = async function (password){
+    return bcrypt.compare(password,this.password);
+}
+
+const User = mongoose.model('User', userSchema);
 export default User;

@@ -1,37 +1,18 @@
 import User from "../models/userModel.js"
 import bcrypt from "bcryptjs";
+import { generateTokenAndSetCookie } from "../lib/utils/generateToken.js";
 
 export async function signup(req,res){
     try{
-        const { email, password, username} = req.body;
-
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-        if(!emailRegex){
-            return res.status(400).json({error: "Invalid email format"});
-        }
-
-        const existingUser = await User.findOne({username});
-
-        if(existingUser){
-            return res.status(400).json({error: "Username already taken"});
-        }
+        const { email, password, name} = req.body;
 
         const existingEmail = await User.findOne({email});
 
         if(existingEmail){
-            return res.status(400).json({error: "Email already taken"});
+            return res.status(400).json({error: "user already exists"});
         }
 
-        if(password < 6){
-            return res.status(400).json({error: "Password must be 6 or more"});
-        }
-
-        const salt = await bcrypt.genSalt(10);
-
-        const hashPass = await bcrypt.hash(password, salt);
-
-        const newUser = new User({ username, email, password: hashPass});
+        const newUser = new User({ name, email, password});
 
         if(newUser){
             generateTokenAndSetCookie(newUser._id, res);
@@ -43,9 +24,13 @@ export async function signup(req,res){
         }
 
         return res.status(201).json({
-            password: hashPass,
-            email,
-            username
+            newUser: {
+                _id: newUser._id,
+                name: newUser.name,
+                email: newUser.email,
+                role: newUser.role
+            },
+            message: "user created successfully"
         });
 
     }catch(error){
