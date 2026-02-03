@@ -7,6 +7,7 @@ const productSchema = new mongoose.Schema({
     },
     price: {
         type: Number,
+        min: 0,
         required: true,
     },
     description: {
@@ -19,8 +20,12 @@ const productSchema = new mongoose.Schema({
     },
     img: {
         type: String,
-        required: true,
+        required: [true, 'Image is required'],
     },
+    isFeatured: {
+        type: Boolean,
+        default: false
+    }
 }, { timestamps: true });
 
 const Product = mongoose.model("Product", productSchema);

@@ -79,12 +79,24 @@ export async function login(req,res){
     }
 }
 
-export async function logout(req,res){
+export async function logout(_,res){
     try{
         res.cookie("jwt", "", {maxAge: 0});
         return res.status(200).json({message: "Logged out successfully"});
     }catch(error){
         console.log("Error in user controller", error);
         return res.status(500).json({error: "Internal server error"});
+    }
+}
+
+export async function getMe(req, res) {
+    try{
+        const user = await User.findById(req.user._id).select("-password");
+        return res.status(200).json(user)
+    }catch(error){
+        console.log("Error in getMe controller", error)
+        res.status(500).json({
+            error: "Internal server error"
+        });
     }
 }
