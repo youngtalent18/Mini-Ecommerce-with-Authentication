@@ -1,6 +1,6 @@
 import Product from "../models/productModel.js";
 import {redis} from "../config/redis.js";
-import {cloudinary} from "../lib/utils/cloudinary.js";
+import cloudinary from "../lib/utils/cloudinary.js";
 
 export const getAllProducts = async (req,res) => {
     try{
@@ -56,5 +56,92 @@ export const createProduct = async (req, res) => {
     } catch (error) {
         console.log("Error in createProduct controller", error);
         return res.status(500).json({ error: "Failed to create product" });
+    }
+}
+
+export const deleteProduct = async (req, res) => {
+    try {
+        const { productId } = req.params.id;
+
+        const product = await Product.findById(productId);
+
+        if (!product) {
+            return res.status(404).json({ error: "Product not found" });
+        }
+        if(product.image){
+            const publicId = product.image.split("/").pop().split(".")[0];
+            try{
+                await cloudinary.uploader.destroy(`products/${publicId}`);
+            }catch(error){
+                console.log("Error deleting image from Cloudinary", error);
+            }
+        }
+
+        await Product.findByIdAndDelete(productId);
+        res.status(200).json({ message: "Product deleted successfully" });
+
+    }catch (error) {
+        console.log("Error in deleteProduct controller", error);
+        return res.status(500).json({ error: "Failed to delete product" });
+    }
+}
+       
+export const getRecommendations = async (_,res) => {
+    try{
+        const recommendations = await Product.aggregate([
+            { 
+                $sample: { size: 5 }
+            },
+            {
+                $project: {
+                    name: 1,
+                    description: 1,
+                    price: 1,
+                    image: 1,
+                    category: 1
+                }
+            }
+        ]);
+        return res.json(recommendations);   
+    }catch(error){
+        console.log("Error in getRecommendations controller", error);
+        return res.status(500).json({ error: "Failed to fetch recommendations" });
+    }
+}
+
+export const getCategoryProducts = async (req,res) => {
+    try{
+        const { category } = req.params;
+        const categoryProducts = await Product.find({ category }).sort({ createdAt: -1 });
+        res.json(categoryProducts);
+    }catch(error){
+        console.log("Error in getCategoryProducts controller", error);
+        return res.status(500).json({ error: "Failed to fetch category products" });
+    }
+}
+
+export const toggleFeaturedStatus = async (req,res) => {
+    try{
+        const product = await Product.findById(req.params.id);
+        if(product){
+            product.isFeatured = !product.isFeatured;
+            const updatedProduct = await product.save();
+            await updateFeaturedProductsCache();
+            return res.json(updatedProduct);
+        }else{
+            return res.status(404).json({error: "Product not found"});
+        }
+    }catch(error){
+        console.log("Error in toggleFeaturedStatus controller", error);
+        return res.status(500).json({ error: "Failed to toggle featured status" });
+    }
+}
+// Helper function to update the featured products cache
+async function updateFeaturedProductsCache() {
+    try {
+        const featuredProducts = await Product.find({ isFeatured: true }).lean();
+        await redis.set("featured_products", JSON.stringify(featuredProducts), { "EX": 60 * 60 });
+    } catch (error) {
+        console.log("Error updating featured products cache", error);
     }
 }
