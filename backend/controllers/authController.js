@@ -114,14 +114,11 @@ export async function refresh_token(req,res){
     }
 }
 
-// export async function getProfile(req,res){
-//     try{
-//         const user = await User.findById(req.user._id);
-
-//         if(!user) return res.status(404).json({message: "User not found"});
-
-//     }catch(error){
-//         console.log("Error in get profile controller", error);
-//         return res.status(500).json({error: "Internal server error"});
-//     }
-// }
+export async function getProfile(req,res){
+    try{
+        res.json(req.user);
+    }catch(error){
+        console.log("Error in get profile controller", error);
+        return res.status(500).json({error: "Internal server error"});
+    }
+}
