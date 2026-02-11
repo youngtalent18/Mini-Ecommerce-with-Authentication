@@ -44,7 +44,12 @@ export async function login(req,res){
     try{
         const { email, password } = req.body;
 
-        const user = await User.findOne({email});
+        const user = await User.findOne({ email });
+
+        if(!user){
+            return res.status(401).json({error: "Invalid email or password"});
+        }
+
 
         if(user && await user.comparePassword(password)){
             const { accessToken, refreshToken } = generateTokens(user._id);
@@ -59,7 +64,7 @@ export async function login(req,res){
                 }
             });
         }else{
-            return  res.status(401).json({error: "Invalid email or password"});
+            return res.status(401).json({error: "Invalid email or password"});
         }
 
     }catch(error){

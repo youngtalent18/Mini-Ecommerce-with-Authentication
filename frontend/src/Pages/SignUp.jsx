@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { Loader, UserPlus } from 'lucide-react'
 import { motion } from "framer-motion"
+import useStore from "../store/useStore.js"
 
 const SignUp = () => {
-  const loading = true;
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -11,9 +11,12 @@ const SignUp = () => {
     confirmPassword: ""
   })
 
+  const {signup, loading} = useStore();
+
   const handleSubmit = (e) =>{
     e.preventDefault();
     console.log(formData);
+    signup(formData);
   }
   return (
     <div className='signup-con'>

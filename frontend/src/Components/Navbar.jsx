@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import { Link } from "react-router-dom"
 import {Lock, ShoppingCart, LogIn, LogOut, UserPlus} from "lucide-react"
+import useStore from '../store/useStore';
 const Navbar = () => {
 
-  const user = false;
+  const {user} = useStore();
   const isAdmin = false;
-  const [isLogin, setIsLogin] = useState(false);
 
   return (
     <header className='navbar'>

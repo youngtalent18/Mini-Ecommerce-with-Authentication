@@ -16,12 +16,15 @@ import cookieParser from "cookie-parser";
 dotenv.config();
 
 const app = express();
-app.use(cors());
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+}));
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({extended: true}));
 
-const port = process.env.PORT || 6060
+const port = process.env.PORT || 6060;
 
 app.use("/api/auth", userRoute);
 app.use("/api/products", productRoute);
