@@ -1,7 +1,7 @@
 import express from "express"
 import { signup, login, refresh_token, logout } from "../controllers/authController.js";
 import {protectRoute} from "../middleware/protectRoute.js";
-import { getProfile } from "../controllers/userController.js";
+import { getProfile } from "../controllers/authController.js";
 const router = express.Router();
 
 router.post("/signup", signup);

@@ -1,68 +1,192 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+.app-con{
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient( 135deg,#020617 0%, #0f172a 50%, #4c1d95 100%);
+    color: white;
 }
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+.navbar{
+    display: flex;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    left: 0;
+    padding: 2rem 3rem;
+    width: 100%;
+    z-index: 999;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(138, 119, 165, 0.477);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
+.nav-con{
+    display: flex;
+    align-items: center;
+    gap: 2rem;
 }
-button:hover {
-  border-color: #646cff;
+.default-home{
+    font-size: large;
+    color: hsl(0, 0%, 91%);
+    font-weight: bold;
 }
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+.nav-links{
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+}
+.home-link{
+    color: hsl(0, 0%, 91%);
+    font-weight: bold;
+    font-size: medium;
+}
+.cart-link, .dashboard{
+    display: flex;
+    gap: 0.1rem;
+    color: hsl(0, 0%, 91%);
+    font-weight: bold;
+    font-size: medium;
+    text-decoration: none;
+    position: relative;
+}
+.cart-count{
+    position: absolute;
+    background: rgba(245, 61, 67, 0.959);
+    bottom: 10px;
+    border-radius: 30px;
+    padding: 1px 4px;
+    font-size: small;
+}
+a:hover{
+    transition: 0.3s ease-in-out;
+}
+.dashboard{
+    display: flex;
+    gap: 0.1rem;
+    background: hsl(0, 13%, 88%);
+    padding: 4px 8px;
+    border-radius: 5px;
+    color: hsla(0, 2%, 12%, 0.927);
+    font-size: 15px;
+    text-decoration: none;
+}
+.dashboard:hover{
+    background: hsl(0, 0%, 100%);
+}
+.logout-btn{
+    display: flex;
+    gap: 0.1rem;
+    background: hsl(138, 73%, 61%);
+    padding: 4px 8px;
+    border-radius: 10px;
+    color: hsla(0, 41%, 97%, 0.984);
+    font-size: medium;
+    text-decoration: none;
+    border: none;
+}
+.logout-btn:hover{
+    background: hsl(138, 65%, 49%);
+}
+.signup-login{
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: hsl(0, 0%, 16%);
+    background: hsl(0, 8%, 95%);
+    padding: 4px 8px;
+    border-radius: 5px;
+    transition: 2s ease;
+}
+.signup-login:hover{
+    background: hsl(0, 0%, 100%);
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+/* SIGNUP PAGE STYLINGS */
+.signup-heading{
+    text-align: center;
+    padding: 10px 0;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.details{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    max-width: 400px;
+}
+.main{
+    width: 100%;
+}
+
+.name-field input{
+    width: 100%;
+    padding: 10px 15px;
+    border: 0.1px solid;
+    outline: none;
+    border-radius: 5px;
+    margin: 15px 0;
+    font-size: 1rem;
+}
+.name-field input::placeholder{
+    font-size: 15px;
+    color: hsl(0, 0%, 0%);
+}
+.register-btn{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    justify-content: center;
+    width: 100%;
+    padding: 8px 10px;
+    border: 0.1px solid #fff;
+    border-radius: 5px;
+    font-size: 15px;
+    font-weight: 300;
+    background: rgba(29, 29, 81, 0.826);
+    color: #fff;
+    transition: 2s ease;
+    cursor: pointer;
+}
+.register-btn:hover{
+    background: hsla(240, 32%, 43%, 0.826);
+}
+.register{
+    text-align: center;
+    margin-top: 5px;
+}
+.register p{
+    font-size: 15px;
+    align-items: center;
+}
+.register p span{
+    text-decoration: underline;
+    color: hsla(0, 0%, 100%, 0.865);
+    cursor: pointer;
+    font-size: 500;
+}
+
+.register-btn:disabled{
+    background-color: #666;
+    cursor: not-allowed;
+}
+
+.spinner{
+    height: 15px;
+    width: 15px;
+    animation: animate 1s linear infinite;
+}
+
+@keyframes animate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }

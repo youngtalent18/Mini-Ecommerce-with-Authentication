@@ -1,71 +1,81 @@
 import User from "../models/userModel.js";
 import Product from "../models/productModel.js";
 import Order from "../models/order.js";
-export async function getAnalysis(req,res){
+
+/**
+ * MAIN ANALYTICS CONTROLLER
+ */
+export const getAnalysis = async (req, res) => {
     try {
-        const analysis = await AnalyticsModel();
-        const startDate = new Date(endDate.getTime() - 30 * 24 * 60 * 60 * 1000);
+        const endDate = new Date();
+        const startDate = new Date();
+        startDate.setDate(endDate.getDate() - 30);
 
-        const salesData = await getDailySales(startDate, endDate);
+        const summary = await getSummaryAnalytics();
+        const dailySales = await getDailySales(startDate, endDate);
 
-           
+        res.status(200).json({
+            summary,
+            dailySales
+        });
     } catch (error) {
         console.error("Error fetching analytics:", error);
         res.status(500).json({ error: error.message });
     }
-}
+};
 
-export const AnalyticsModel = async (req,res) =>{
-    const totalUsers = await User.countDocuments();
-    const totalProducts = await Product.countDocuments();
+/**
+ * SUMMARY ANALYTICS
+ */
+const getSummaryAnalytics = async () => {
+    const users = await User.countDocuments();
+    const products = await Product.countDocuments();
 
-    const salesData = await Order.aggregate([
+    const salesAgg = await Order.aggregate([
         {
             $group: {
                 _id: null,
                 totalSales: { $sum: 1 },
                 totalRevenue: { $sum: "$totalAmount" }
             }
-        },
-        {
-            $sort: { _id: 1 }
         }
     ]);
 
-    const { totalSales, totalRevenue } = salesData[0] || { totalSales: 0, totalRevenue: 0 };
+    const { totalSales = 0, totalRevenue = 0 } = salesAgg[0] || {};
 
     return {
-        users: totalUsers,
-        products: totalProducts,
+        users,
+        products,
         totalSales,
         totalRevenue
-    }  
-}
+    };
+};
 
-export const getDailySales = async (startDate, endDate) => {
+/**
+ * DAILY SALES WITH EMPTY DAYS FILLED
+ */
+const getDailySales = async (startDate, endDate) => {
     const salesData = await Order.aggregate([
         {
             $match: {
-                createdAt: {
-                    $gte: startDate,
-                    $lte: endDate
-                }
+                createdAt: { $gte: startDate, $lte: endDate }
             }
         },
         {
             $group: {
-                _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
+                _id: {
+                    $dateToString: {
+                        format: "%Y-%m-%d",
+                        date: "$createdAt"
+                    }
+                },
                 count: { $sum: 1 },
                 revenue: { $sum: "$totalAmount" }
             }
         },
-        {
-            $sort: { _id: 1 }
-        }
+        { $sort: { _id: 1 } }
     ]);
-    return salesData;
 
-}
     const dateArr = getDateArray(startDate, endDate);
 
     return dateArr.map(date => {
@@ -76,13 +86,19 @@ export const getDailySales = async (startDate, endDate) => {
             revenue: dailyData ? dailyData.revenue : 0
         };
     });
+};
 
-function getDateArray(start, end) {
+/**
+ * DATE HELPER
+ */
+const getDateArray = (start, end) => {
     const dates = [];
-    let currentDate = new Date(start);
-    while (currentDate <= end) {
-        dates.push(currentDate.toISOString().split("T")[0]);
-        currentDate.setDate(currentDate.getDate() + 1);
+    let current = new Date(start);
+
+    while (current <= end) {
+        dates.push(current.toISOString().split("T")[0]);
+        current.setDate(current.getDate() + 1);
     }
+
     return dates;
-}
+};

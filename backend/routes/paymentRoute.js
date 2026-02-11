@@ -1,5 +1,6 @@
 import express from "express"
-import { protectRoute,getCheckoutSuccess } from "../middleware/protectRoute.js"
+import { protectRoute } from "../middleware/protectRoute.js"
+import { createCheckoutSession, getCheckoutSuccess } from "../controllers/paymentController.js";
 
 const router = express.Router();
 router.post("/create-checkout-session" ,protectRoute, createCheckoutSession);

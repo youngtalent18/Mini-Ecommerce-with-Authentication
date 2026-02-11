@@ -1,6 +1,6 @@
 import stripe from "../lib/stripe.js";
 import Coupon from "../models/couponModel.js";
-import Order from "../models/orderModel.js";
+import Order from "../models/order.js";
 
 /* =====================================================
    CREATE CHECKOUT SESSION
