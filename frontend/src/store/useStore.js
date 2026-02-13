@@ -7,7 +7,7 @@ import axios from "../api/axios.js"
 export default create((set,get)=>({
     user: null,
     loading: false,
-    checkingAuth: true,
+    checkingAuth: false,
 
     signup : async({name, password, email, confirmPassword}) => {
         set({loading: true});
@@ -30,12 +30,30 @@ export default create((set,get)=>({
         set({loading: true});
 
         try{
-            const res = await axios.post("/auth/login", {password, email});
+            await axios.post("/auth/login", {password, email});
+            const res = await axios.get("/auth/profile");
             set({user: res.data, loading: false});
             toast.success("Logged in successfully");
         }catch(error){
             set({loading: false});
             toast.error(error.response.data.error || "An error occurred");
         }
+    },
+    checkAuth: async() => {
+        set({checkingAuth: true});
+        try{
+            const res = await axios.get("/auth/profile");
+            set({user: res.data, checkingAuth: false});
+        }catch(error){
+            set({checkingAuth: false, user: null});
+        }
+    },
+    logout: async() => {
+        try{
+            await axios.post("/auth/logout");
+            set({user: null});
+        }catch(error){
+            toast.error(error.response.data.error || "An error occurred");
+        }
     }
-}))
+}));

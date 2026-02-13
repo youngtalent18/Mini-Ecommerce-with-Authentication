@@ -4,8 +4,8 @@ import {Lock, ShoppingCart, LogIn, LogOut, UserPlus} from "lucide-react"
 import useStore from '../store/useStore';
 const Navbar = () => {
 
-  const {user} = useStore();
-  const isAdmin = false;
+  const {user,logout} = useStore();
+  const isAdmin =  user && user?.role === "admin";
 
   return (
     <header className='navbar'>
@@ -35,7 +35,7 @@ const Navbar = () => {
 
               {
                 user ? (
-                  <button className='logout-btn'>
+                  <button onClick={()=>logout()} className='logout-btn'>
                     <LogOut size={18}/>
                     <span className='logOut-text'>Logout</span>
                   </button>
