@@ -1,5 +1,6 @@
 import {Routes, Route, Navigate } from 'react-router-dom'
 import Homepage from './Pages/Homepage.jsx'
+import AdminPage from './Pages/AdminPage.jsx'
 import LoginPage from './Pages/LoginPage.jsx'
 import SignUp from './Pages/SignUp.jsx'
 import Navbar from './Components/Navbar.jsx'
@@ -10,10 +11,13 @@ import { useEffect } from 'react'
 
 function App() {
 
-  const {user, checkAuth} = useStore();
+  const {user, checkAuth, checkingAuth} = useStore();
   useEffect(()=>{
     checkAuth()
   },[checkAuth]);
+
+  if (checkingAuth) return <div className='loader'>Loading...</div>;
+
 
   return (
     <div className='app-con'>
@@ -23,6 +27,7 @@ function App() {
           <Route path='/' element={<Homepage />} />
           <Route path='/signup' element={!user ? <SignUp /> : <Navigate to="/"/>} />
           <Route path='/login' element={!user ? <LoginPage /> : <Navigate to="/"/> } />
+          <Route path='/dashboard' element={user && user?.role === "admin" ? <AdminPage /> : <Navigate to="/login"/>} />
       </Routes>
 
     </div>

@@ -1,0 +1,30 @@
+.admin-main{
+    overflow: hidden;
+    background: rgb(23, 26, 56);
+    margin: 0 auto;
+}
+.admin-heading{
+    text-align: center;
+}
+
+
+.active{
+    background-color: rgb(40, 191, 40);
+}
+.inactive{
+    background-color: gray;
+}
+.admin-sub{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding-top: 10px;
+}
+.admin-sub button{
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+}

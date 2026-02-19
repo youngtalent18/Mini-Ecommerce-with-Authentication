@@ -1,13 +1,14 @@
 import {create} from "zustand"
 import {toast} from "react-hot-toast"
 import axios from "../api/axios.js"
+import { Navigate } from "react-router-dom";
 // psalm 85:7, hebrews 4:16,psalm 102:13
 
 
 export default create((set,get)=>({
     user: null,
     loading: false,
-    checkingAuth: false,
+    checkingAuth: true,
 
     signup : async({name, password, email, confirmPassword}) => {
         set({loading: true});
@@ -48,12 +49,13 @@ export default create((set,get)=>({
             set({checkingAuth: false, user: null});
         }
     },
-    logout: async() => {
-        try{
+    logout: async () => {
+        try {
             await axios.post("/auth/logout");
-            set({user: null});
-        }catch(error){
-            toast.error(error.response.data.error || "An error occurred");
+            set({ user: null });
+        } catch (error) {
+            const message = error.response?.data?.error ||error.message ||"Logout failed";
+            toast.error(message);
         }
-    }
+    },
 }));
