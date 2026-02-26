@@ -245,3 +245,76 @@ a:hover{
 .btn:hover{
     background-color: #2ef653;
 }
+
+.table-wrapper {
+  overflow-x: auto;
+  margin-top: 20px;
+}
+
+.product-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #0f172a;
+  color: white;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.product-table thead {
+  background: #1e293b;
+}
+
+.product-table th,
+.product-table td {
+  padding: 14px 16px;
+  text-align: left;
+}
+
+.product-table th {
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.product-table tbody tr {
+  border-bottom: 1px solid #1e293b;
+  transition: 0.2s ease;
+}
+
+.product-table tbody tr:hover {
+  background: #1e293b;
+}
+
+.table-img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.feature-btn {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  background: #334155;
+  color: white;
+}
+
+.feature-btn.active {
+  background: #22c55e;
+}
+
+.delete-btn {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  background: #ef4444;
+  color: white;
+}
+
+.delete-btn:hover {
+  background: #dc2626;
+}
