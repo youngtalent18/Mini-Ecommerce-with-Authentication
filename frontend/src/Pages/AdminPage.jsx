@@ -1,10 +1,11 @@
 import { BarChart, PlusCircle, ShoppingBasket } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import AnalyticsPage from "../Components/AnalyticsPage"
 import CreatePage from "../Components/CreatePage"
 import ProductPage from "../Components/ProductPage"
 import "./CSS/admin.css"
 import { motion } from 'framer-motion'
+import useProductStore from '../store/useProductStore'
 
 const AdminPage = () => {
   const tabs = [
@@ -14,6 +15,13 @@ const AdminPage = () => {
   ]
 
   const [activeTab, setActiveTab] = useState("create");
+  const { fetchAllProducts } = useProductStore();
+  
+  useEffect(()=>{
+    fetchAllProducts();
+  },[fetchAllProducts]);
+
+
   return (
     <div className="admin-main">
         <motion.h1 className='admin-heading'  initial={{opacity: 0, y: 20}} animate={{opacity: 1, y: 0}} transition={{duration: 0.8}}>
