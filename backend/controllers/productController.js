@@ -61,7 +61,7 @@ export const createProduct = async (req, res) => {
 
 export const deleteProduct = async (req, res) => {
     try {
-        const { productId } = req.params.id;
+        const productId  = req.params.id;
 
         const product = await Product.findById(productId);
 
