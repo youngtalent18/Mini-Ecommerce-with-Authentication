@@ -30,7 +30,7 @@ export const useProductStore = create((set) => ({
         }
     },
 
-    createProduct: async (newProduct) => {
+    createProducts: async (newProduct) => {
         set({ loading: true, error: null })
 
         try {
@@ -52,7 +52,7 @@ export const useProductStore = create((set) => ({
         }
     },
 
-    deleteProduct: async (id) => {
+    deleteProducts: async (id) => {
         try {
             await axios.delete(`/products/${id}`)
 
