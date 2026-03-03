@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import {motion} from "framer-motion"
 import { Loader, PlusCircle, Upload } from 'lucide-react';
+import useProductStore from '../store/useProductStore';
 
 const CreatePage = () => {
     const categories = ["kids", "women", "men", "bags"];
@@ -11,7 +12,22 @@ const CreatePage = () => {
         price: "",
         image: ""
     });
-    const loading = false;
+    const {createProducts, loading} = useProductStore();
+
+    const handleCreate = async (e)=>{
+        e.preventDefault();
+        try {
+            await createProducts(newProduct);
+            setNewProduct({ name: "",
+                            description: "",
+                            category: "",
+                            price: "",
+                            image: ""
+                         })
+        } catch (error) {
+            console.log("Failed to create",error);
+        }
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -64,7 +80,7 @@ const CreatePage = () => {
                 <label className='image-label' htmlFor="image"><Upload size={15}/>Upload Image</label>
                 {newProduct.image && <span>{newProduct.image}</span>}
             </div>
-            <button type='submit' disabled={loading} className='btn'>
+            <button onClick={handleCreate} type='submit' disabled={loading} className='btn'>
                 {
                     loading? (
                         <>
