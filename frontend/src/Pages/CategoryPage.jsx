@@ -1,0 +1,38 @@
+import React, { useEffect } from 'react'
+import useProductStore from '../store/useProductStore'
+import { useParams } from 'react-router-dom';
+import {motion } from "framer-motion"
+import ProductCard from '../Components/ProductCard';
+
+const CategoryPage = () => {
+    const {getProductsByCategory, products} = useProductStore();
+    const {category} = useParams();
+
+    useEffect(()=>{
+        getProductsByCategory(category);
+    }, [getProductsByCategory, category]);
+  return (
+    <div className='category-main'>
+        <div className='category-sub'>
+            <motion.h1 className='cat-head' initial={{opacity: 0, y: 0}} animate={{opacity: 1, y: 20}} transition={{duration: 0.8}}>
+                {category.charAt(0).toUpperCase() + category.slice(1)}
+            </motion.h1>
+            <motion.div className='products-container' initial={{opacity: 0, y: 20}} animate={{opacity: 1, y: 0}} transition={{duration: 0.8, delay: 0.2}}>
+                {
+                    products?.length === 0 && (
+                        <h2 className='not-found'>No products found</h2>
+                    )
+                }
+                {
+                    products?.map((product)=> {
+                        return <ProductCard product={product}/>
+                    })
+                }
+            </motion.div>
+        </div>
+
+    </div>
+  )
+}
+
+export default CategoryPage
