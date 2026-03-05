@@ -72,19 +72,34 @@ export const useProductStore = create((set) => ({
     },
 
     toggleFeatured: async (id) => {
+        set({ loading: true});
         try {
             const res = await axios.patch(`/products/${id}/featured`)
 
-            set((state) => ({
-                products: state.products.map((product) =>
-                    product._id === id ? res.data : product
-                )
+            set((prevProducts) => ({
+                products: prevProducts.products.map((product) =>
+                    product._id === id ? {...product, isFeatured: res.data.isFeatured} : product
+                ),
+                loading: false
             }))
 
         } catch (error) {
             toast.error(
                 error.response?.data?.error || "Failed to update product"
             )
+        }
+    },
+
+    getProductsByCategory: async (id) => {
+        set({loading: true});
+        try{
+            const res = await axios.get(`/products/category/${category}`);
+            set({product: res.data, loading: false});
+        }catch(error){
+            set({
+                loading: false,
+                error: "Failed to fetch categories"
+            })
         }
     }
 }))
