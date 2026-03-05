@@ -42,11 +42,11 @@ const ProductPage = () => {
             <td>
               <button
                 className={`feature-btn ${
-                  product.featured ? "active" : ""
+                  product.isFeatured ? "active" : ""
                 }`}
                 onClick={() => toggleFeatured(product._id)}
               >
-                {product.featured ? "Yes" : "No"}
+                {product.isFeatured ? "Yes" : "No"}
               </button>
             </td>
 
