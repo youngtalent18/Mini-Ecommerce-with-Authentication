@@ -10,7 +10,7 @@ import {protectRoute, adminRoute } from "../middleware/protectRoute.js";
 
 const router = express.Router();
 
-router.get("/", protectRoute, adminRoute, getAllProducts);
+router.get("/", getAllProducts);
 router.get("/featured", getFeaturedProducts);
 router.get("/category/:category", getCategoryProducts);
 router.get("/recommendations", getRecommendations);
