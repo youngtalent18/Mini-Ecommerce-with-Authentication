@@ -2,7 +2,7 @@ import Product from "../models/productModel.js";
 import {redis} from "../config/redis.js";
 import cloudinary from "../lib/utils/cloudinary.js";
 
-export const getAllProducts = async (req,res) => {
+export const getAllProducts = async (_,res) => {
     try{
         const products = await Product.find({}).sort({createdAt: -1});
         return res.status(201).json(products);
@@ -12,7 +12,7 @@ export const getAllProducts = async (req,res) => {
     }
 }
 
-export const getFeaturedProducts = async(req, res) => {
+export const getFeaturedProducts = async(_, res) => {
     try{
         let featuredProducts = await redis.get("featured_products");
         if(featuredProducts){
