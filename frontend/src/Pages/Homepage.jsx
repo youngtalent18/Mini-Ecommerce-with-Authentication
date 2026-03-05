@@ -1,6 +1,7 @@
 import React from 'react'
 import "./CSS/Homepage.css"
 import Category from '../Components/Category';
+import useProductStore from '../store/useProductStore';
 
 const Homepage = () => {
 
@@ -11,20 +12,19 @@ const Homepage = () => {
     {href: "/women", name: "Women", imageUrl: "/Women.jpeg"},
   ];
 
-
   return (
     <div className='main-category'>
       <h1>Explore Our Categories</h1>
         <hr />
       <div className="categories-container">
         <p>Discover our wide range of products in each category.</p>
-        <div className='category-list'>
-        {
-          categories.map((category, index) => {
-            return <Category key={index} category={category} />
-          })
-        }
-      </div>
+          <div className='category-list'>
+          {
+            categories.map((category, index) => {
+              return <Category key={index} category={category} />
+            })
+          }
+        </div>
       </div>
     </div>
   )
