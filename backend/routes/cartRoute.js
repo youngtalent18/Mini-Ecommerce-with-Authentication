@@ -4,8 +4,8 @@ import {protectRoute} from "../middleware/protectRoute.js";
 
 const router = express.Router();
 
-router.post("/",protectRoute, getCartProducts);
-router.get("/",protectRoute, addToCart);
-router.delete("/",protectRoute, removeAllFromCart);
+router.get("/",protectRoute, getCartProducts);
+router.post("/add",protectRoute, addToCart);
+router.delete("/remove",protectRoute, removeAllFromCart);
 router.put("/:id",protectRoute, updateQuantity);
 export default router;
