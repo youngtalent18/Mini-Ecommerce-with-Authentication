@@ -1,11 +1,10 @@
 import {create} from "zustand"
 import {toast} from "react-hot-toast"
 import axios from "../api/axios.js"
-import { Navigate } from "react-router-dom";
 // psalm 85:7, hebrews 4:16,psalm 102:13
 
 
-export default create((set,get)=>({
+export default create((set)=>({
     user: null,
     loading: false,
     checkingAuth: true,
@@ -47,6 +46,7 @@ export default create((set,get)=>({
             set({user: res.data, checkingAuth: false});
         }catch(error){
             set({checkingAuth: false, user: null});
+            console.log("Error",error);
         }
     },
     logout: async () => {
