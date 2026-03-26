@@ -1,7 +1,6 @@
 import React from 'react'
 import "./CSS/Homepage.css"
 import Category from '../Components/Category';
-import useProductStore from '../store/useProductStore';
 
 const Homepage = () => {
 
@@ -14,7 +13,7 @@ const Homepage = () => {
 
   return (
     <div className='main-category'>
-      <h1>Explore Our Categories</h1>
+      <h1 class="text-3xl font-bold">Explore Our Categories</h1>
         <hr />
       <div className="categories-container">
         <p>Discover our wide range of products in each category.</p>
