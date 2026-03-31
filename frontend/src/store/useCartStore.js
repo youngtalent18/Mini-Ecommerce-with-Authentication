@@ -12,6 +12,7 @@ export const useCartStore = create((set, get)=>({
         try{
             const res = await axios.get("/cart");
             set({cart: res.data});
+            get().calculateTotal();
         }catch(error){
             set({cart: []});
             const message = error.response?.data?.message || "Failed to fetch cart items";
@@ -29,6 +30,7 @@ export const useCartStore = create((set, get)=>({
                     : [...prevState.cart,{...product, quantity: 1}];
                 return {cart: newCart};
             })
+            get().calculateTotal();
         }catch(error){
             const message = error.response?.data?.message || "Failed to items add cart";
             toast.error(message);
@@ -37,8 +39,15 @@ export const useCartStore = create((set, get)=>({
     calculateTotal: () => {
         const {coupon, cart} = get();
         const subtotal = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
-        const discount = coupon ? (subtotal * coupon.discount) / 100 : 0;
-        const total = subtotal - discount;
+        
+        let total = subtotal;
+
+
+        if(coupon){
+            const discount = subtotal * (coupon.discount / 100);
+            total = subtotal - discount;
+        }
+
         set({total, subTotal: subtotal});
     },
 }))
