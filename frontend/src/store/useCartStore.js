@@ -2,7 +2,7 @@ import {create} from "zustand"
 import axios from "../api/axios.js"
 import { toast } from "react-hot-toast"
 
-export const useCartStore = create((set)=>({
+export const useCartStore = create((set, get)=>({
     cart: [],
     total: 0,
     coupon: null,
@@ -33,5 +33,12 @@ export const useCartStore = create((set)=>({
             const message = error.response?.data?.message || "Failed to items add cart";
             toast.error(message);
         }
+    },
+    calculateTotal: () => {
+        const {coupon, cart} = get();
+        const subtotal = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+        const discount = coupon ? (subtotal * coupon.discount) / 100 : 0;
+        const total = subtotal - discount;
+        set({total, subTotal: subtotal});
     },
 }))
