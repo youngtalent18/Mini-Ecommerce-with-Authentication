@@ -18,7 +18,20 @@ export const useCartStore = create((set)=>({
             toast.error(message);
         }
     },
-    addToCart: async () => {
+    addToCart: async (product) => {
+        try{
+            await axios.post("/cart",{productId: product._id});
+            toast.success("Product added to cart");
 
+            set((prevState)=>{
+                const existingItem = prevState.cart.find((item)=>item._id === product._id);
+                const newCart = existingItem ? prevState.cart.map((item)=>(item._id === product._id? {...item, quantity: item.quantity + 1} : item)) 
+                    : [...prevState.cart,{...product, quantity: 1}];
+                return {cart: newCart};
+            })
+        }catch(error){
+            const message = error.response?.data?.message || "Failed to items add cart";
+            toast.error(message);
+        }
     },
 }))
