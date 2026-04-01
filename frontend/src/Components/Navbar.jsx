@@ -1,12 +1,15 @@
 import { Link } from "react-router-dom"
 import {Lock, ShoppingCart, LogIn, LogOut, UserPlus} from "lucide-react"
 import useStore from '../store/useStore';
+import { useCartStore } from "../store/useCartStore";
 
 
 
 const Navbar = () => {
 
   const {user,logout} = useStore();
+  const {cart} = useCartStore();
+
   const isAdmin =  user && user?.role === "admin";
 
   return (
@@ -20,7 +23,7 @@ const Navbar = () => {
                 ( <Link className='cart-link' to={"/cart"}>
                     <ShoppingCart className='cart-icon' size={20}/>
                     <span className='cart'>cart</span>
-                    <span className='cart-count'>0</span>
+                    {cart.lenght > 0 && <span className='cart-count'>{cart.length}</span>}
                   </Link>
                 )
               }
