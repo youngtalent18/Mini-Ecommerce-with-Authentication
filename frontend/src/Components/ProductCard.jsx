@@ -1,9 +1,17 @@
 import React from 'react'
 import {toast} from 'react-hot-toast';
+import { useAuthStore } from '../store/useAuthStore';
+import { useCartStore } from '../store/useCartStore';
 
 const ProductCard = ({product}) => {
+    const {user} = useAuthStore();
+    const {addToCart} = useCartStore();
     const handleAddToCart = () => {
-        toast.success(`${product.name} added to cart`);
+        if(!user){
+            toast.error("Please login to add items to cart");
+            return;
+        }
+        addToCart(product);
     }
   return (
     <div className='product-card'>
