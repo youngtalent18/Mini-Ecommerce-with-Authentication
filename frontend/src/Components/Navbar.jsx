@@ -13,10 +13,10 @@ const Navbar = () => {
   const isAdmin =  user && user?.role === "admin";
 
   return (
-    <header className='navbar'>
-      <Link className='default-home' style={{textDecoration: "none"}} to={"/"}>E-commerce</Link>
+    <header className='flex justify-between items-center px-8 py-4 bg-slate-700 sticky top-0 left-0 z-10 text-white'>
+      <Link className='font-bold text-2xl cursor-pointer' style={{textDecoration: "none"}} to={"/"}>E-commerce</Link>
        <div className="nav-con">
-          <nav className='nav-links'>
+          <nav className='flex items-center gap-5'>
               <Link className='home-link' style={{textDecoration: "none"}} to={"/"}>Home</Link>
 
               {user &&
@@ -40,19 +40,19 @@ const Navbar = () => {
 
               {
                 user ? (
-                  <button onClick={()=>logout()} className='logout-btn'>
-                    <LogOut size={18}/>
+                  <button onClick={()=>logout()} className='flex'>
+                    <LogOut size={15}/>
                     <span className='logOut-text'>Logout</span>
                   </button>
                 ) : (
                   <>
-                  <Link className='signup-login' to={"/signup"}>
-                    <UserPlus size={18}/>
+                  <Link className='flex items-center gap-1' to={"/signup"}>
+                    <UserPlus size={15}/>
                     SignUp
                   </Link>
                   {"|"}
-                  <Link className='signup-login' to={"/login"}>
-                    <LogIn size={18}/>
+                  <Link className='flex items-center gap-1' to={"/login"}>
+                    <LogIn size={15}/>
                     Login
                   </Link>
                   </>
