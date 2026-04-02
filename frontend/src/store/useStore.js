@@ -4,7 +4,7 @@ import axios from "../api/axios.js"
 // psalm 85:7, hebrews 4:16,psalm 102:13
 
 
-export default create((set)=>({
+export const useStore = create((set)=>({
     user: null,
     loading: false,
     checkingAuth: true,
@@ -59,3 +59,5 @@ export default create((set)=>({
         }
     },
 }));
+
+export default useStore;
