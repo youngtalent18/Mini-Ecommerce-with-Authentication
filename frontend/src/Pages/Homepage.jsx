@@ -12,12 +12,11 @@ const Homepage = () => {
   ];
 
   return (
-    <div className='main-category'>
-      <h1 class="text-3xl font-bold">Explore Our Categories</h1>
-        <hr />
+    <div className='min-h-screen max-w-full bg-slate-600'>
+      <h1 class="text-slate-300 text-3xl text-center font-bold">Explore Our Categories</h1>
       <div className="categories-container">
-        <p>Discover our wide range of products in each category.</p>
-          <div className='category-list'>
+        <p className='text-sm text-slate-50 pb-1'>Discover our wide range of products in each category.</p>
+          <div className='w-10/12 py-4 grid grid-cols-2 gap-2 sm:grid-cols-3 '>
           {
             categories.map((category, index) => {
               return <Category key={index} category={category} />
