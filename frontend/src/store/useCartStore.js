@@ -36,7 +36,7 @@ export const useCartStore = create((set, get)=>({
             toast.error(message);
         }
     },
-    calculateTotal: () => {
+    calculateTotal: async () => {
         const {coupon, cart} = get();
         const subtotal = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
         
@@ -50,4 +50,12 @@ export const useCartStore = create((set, get)=>({
 
         set({total, subTotal: subtotal});
     },
-}))
+    removeFromCart: async (productId) => {
+        await axios.delete(`/cart/remove/${productId}`);
+        set((prevState)=> ({
+            cart: prevState.cart.filter((item)=> item._id !== productId)
+        }));
+    }
+}));
+
+export default useCartStore;
