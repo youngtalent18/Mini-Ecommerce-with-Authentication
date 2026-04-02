@@ -1,10 +1,10 @@
 import React from 'react'
 import {toast} from 'react-hot-toast';
-import { useAuthStore } from '../store/useAuthStore';
+import { useStore } from '../store/useStore';
 import { useCartStore } from '../store/useCartStore';
 
 const ProductCard = ({product}) => {
-    const {user} = useAuthStore();
+    const {user} = useStore();
     const {addToCart} = useCartStore();
     const handleAddToCart = () => {
         if(!user){
