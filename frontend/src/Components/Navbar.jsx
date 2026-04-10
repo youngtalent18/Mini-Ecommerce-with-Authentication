@@ -23,7 +23,7 @@ const Navbar = () => {
                 ( <Link className='cart-link' to={"/cart"}>
                     <ShoppingCart className='cart-icon' size={20}/>
                     <span className='cart'>cart</span>
-                    {cart.lenght > 0 && <span className='cart-count'>{cart.length}</span>}
+                    {cart.length > 0 && <span className='cart-count'>{cart.length}</span>}
                   </Link>
                 )
               }
