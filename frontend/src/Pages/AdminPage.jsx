@@ -4,6 +4,7 @@ import AnalyticsPage from "../Components/AnalyticsPage"
 import CreatePage from "../Components/CreatePage"
 import ProductPage from "../Components/ProductPage"
 import "./CSS/admin.css"
+// eslint-disable-next-line no-unused-vars
 import { motion } from 'framer-motion'
 import useProductStore from '../store/useProductStore'
 
